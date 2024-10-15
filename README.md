@@ -1,0 +1,1 @@
+A macOS menu bar app that allows you to control your [Lightning AI](https://lightning.ai) studios from the menu bar.

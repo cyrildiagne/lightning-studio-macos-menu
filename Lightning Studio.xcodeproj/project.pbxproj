@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F14E02EA2BB6C38B0087A2FF /* LightningStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14E02E92BB6C38B0087A2FF /* LightningStudioApp.swift */; };
+		F14E02EE2BB6C38D0087A2FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14E02ED2BB6C38D0087A2FF /* Assets.xcassets */; };
+		F14E02F12BB6C38D0087A2FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14E02F02BB6C38D0087A2FF /* Preview Assets.xcassets */; };
+		F1E2CF672CBE8FFD00407905 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2CF662CBE8FFD00407905 /* SettingsView.swift */; };
+		F1E2CF682CBE8FFD00407905 /* LightningSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2CF652CBE8FFD00407905 /* LightningSDK.swift */; };
+		F1E2CF6B2CBEA6E800407905 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2CF6A2CBEA6E300407905 /* LaunchAtLogin.swift */; };
+		F1E2CF6D2CBEB5F800407905 /* LightningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2CF6C2CBEB5F300407905 /* LightningViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F14E02E62BB6C38B0087A2FF /* Lightning Studio Menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightning Studio Menu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F14E02E92BB6C38B0087A2FF /* LightningStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningStudioApp.swift; sourceTree = "<group>"; };
+		F14E02ED2BB6C38D0087A2FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F14E02F02BB6C38D0087A2FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F14E02F22BB6C38D0087A2FF /* LightningStudio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightningStudio.entitlements; sourceTree = "<group>"; };
+		F14E03012BB6DAC80087A2FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F1E2CF652CBE8FFD00407905 /* LightningSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningSDK.swift; sourceTree = "<group>"; };
+		F1E2CF662CBE8FFD00407905 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F1E2CF6A2CBEA6E300407905 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		F1E2CF6C2CBEB5F300407905 /* LightningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightningViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F14E02E32BB6C38B0087A2FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F14E02DD2BB6C38B0087A2FF = {
+			isa = PBXGroup;
+			children = (
+				F14E02E82BB6C38B0087A2FF /* Lightning Studio */,
+				F14E02E72BB6C38B0087A2FF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F14E02E72BB6C38B0087A2FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F14E02E62BB6C38B0087A2FF /* Lightning Studio Menu.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F14E02E82BB6C38B0087A2FF /* Lightning Studio */ = {
+			isa = PBXGroup;
+			children = (
+				F14E03012BB6DAC80087A2FF /* Info.plist */,
+				F14E02E92BB6C38B0087A2FF /* LightningStudioApp.swift */,
+				F1E2CF652CBE8FFD00407905 /* LightningSDK.swift */,
+				F1E2CF6C2CBEB5F300407905 /* LightningViewModel.swift */,
+				F1E2CF662CBE8FFD00407905 /* SettingsView.swift */,
+				F1E2CF6A2CBEA6E300407905 /* LaunchAtLogin.swift */,
+				F14E02ED2BB6C38D0087A2FF /* Assets.xcassets */,
+				F14E02F22BB6C38D0087A2FF /* LightningStudio.entitlements */,
+				F14E02EF2BB6C38D0087A2FF /* Preview Content */,
+			);
+			path = "Lightning Studio";
+			sourceTree = "<group>";
+		};
+		F14E02EF2BB6C38D0087A2FF /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F14E02F02BB6C38D0087A2FF /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F14E02E52BB6C38B0087A2FF /* Lightning Studio Menu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F14E02F52BB6C38D0087A2FF /* Build configuration list for PBXNativeTarget "Lightning Studio Menu" */;
+			buildPhases = (
+				F14E02E22BB6C38B0087A2FF /* Sources */,
+				F14E02E32BB6C38B0087A2FF /* Frameworks */,
+				F14E02E42BB6C38B0087A2FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Lightning Studio Menu";
+			packageProductDependencies = (
+			);
+			productName = LightningStudio;
+			productReference = F14E02E62BB6C38B0087A2FF /* Lightning Studio Menu.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F14E02DE2BB6C38B0087A2FF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					F14E02E52BB6C38B0087A2FF = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = F14E02E12BB6C38B0087A2FF /* Build configuration list for PBXProject "Lightning Studio" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F14E02DD2BB6C38B0087A2FF;
+			packageReferences = (
+			);
+			productRefGroup = F14E02E72BB6C38B0087A2FF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F14E02E52BB6C38B0087A2FF /* Lightning Studio Menu */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F14E02E42BB6C38B0087A2FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F14E02F12BB6C38D0087A2FF /* Preview Assets.xcassets in Resources */,
+				F14E02EE2BB6C38D0087A2FF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F14E02E22BB6C38B0087A2FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F14E02EA2BB6C38B0087A2FF /* LightningStudioApp.swift in Sources */,
+				F1E2CF672CBE8FFD00407905 /* SettingsView.swift in Sources */,
+				F1E2CF682CBE8FFD00407905 /* LightningSDK.swift in Sources */,
+				F1E2CF6D2CBEB5F800407905 /* LightningViewModel.swift in Sources */,
+				F1E2CF6B2CBEA6E800407905 /* LaunchAtLogin.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F14E02F32BB6C38D0087A2FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F14E02F42BB6C38D0087A2FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		F14E02F62BB6C38D0087A2FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Lightning Studio/LightningStudio.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Lightning Studio/Preview Content\"";
+				DEVELOPMENT_TEAM = J78ACYTG93;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Lightning Studio/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Lightning Studio Menu";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyrildiagne.LighningStudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F14E02F72BB6C38D0087A2FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Lightning Studio/LightningStudio.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Lightning Studio/Preview Content\"";
+				DEVELOPMENT_TEAM = J78ACYTG93;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Lightning Studio/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Lightning Studio Menu";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyrildiagne.LighningStudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F14E02E12BB6C38B0087A2FF /* Build configuration list for PBXProject "Lightning Studio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F14E02F32BB6C38D0087A2FF /* Debug */,
+				F14E02F42BB6C38D0087A2FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F14E02F52BB6C38D0087A2FF /* Build configuration list for PBXNativeTarget "Lightning Studio Menu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F14E02F62BB6C38D0087A2FF /* Debug */,
+				F14E02F72BB6C38D0087A2FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F14E02DE2BB6C38B0087A2FF /* Project object */;
+}
