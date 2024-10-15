@@ -20,8 +20,8 @@ struct LightningStudioApp: App {
         Settings {
             SettingsView(viewModel: viewModel)
         }
-        .onChange(of: viewModel.alertError) { error in
-            if error != nil {
+        .onChange(of: viewModel.alertError) {
+            if viewModel.alertError != nil {
                 openSettings()
             }
         }
@@ -33,10 +33,29 @@ struct LightningMenu: View {
     
     var body: some View {
         VStack {
-            Text(viewModel.studioName)
-                //.font(.headline)
-                .padding(.bottom, 5)
-
+            Menu(viewModel.selectedStudio.isEmpty ? "Select Studio" : viewModel.selectedStudio) {
+                ForEach(viewModel.studios, id: \.self) { studio in
+                    Button(action: {
+                        viewModel.selectStudio(studio["name"] ?? "")
+                    }) {
+                        HStack {
+                            Text(studio["name"] ?? "")
+                            Spacer()
+                            Text(studio["status"] ?? "")
+                            if studio["name"] == viewModel.selectedStudio {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+                
+                Divider()
+                
+                Button("Refresh Studios") {
+                    viewModel.fetchStudios()
+                }
+            }
+            
             if viewModel.currentStatus != "RUNNING" && viewModel.currentStatus != "STOPPED" {
                 Text(viewModel.currentStatus)
             }

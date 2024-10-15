@@ -13,6 +13,8 @@ class LightningViewModel: ObservableObject {
     @Published var currentStatus = "UNKNOWN"
     @Published var currentMachine = "UNKNOWN"
     @Published var alertError: AlertError?
+    @Published var studios: [[String: String]] = []
+    @Published var selectedStudio: String = ""
     
     @AppStorage("LIGHTNING_USER_ID") public var userId = ""
     @AppStorage("LIGHTNING_API_KEY") public var apiKey = ""
@@ -28,6 +30,7 @@ class LightningViewModel: ObservableObject {
     init() {
         setupSDK()
         setupStatusUpdateTimers()
+        fetchStudios()
         Task {
             await updateStatus()
         }
@@ -102,10 +105,12 @@ class LightningViewModel: ObservableObject {
     
     @MainActor
     func updateStatus() async {
+        guard !selectedStudio.isEmpty else { return }
+        
         do {
-            let newStatus = try await lightningSDK.getStatus(name: studioName)
+            let newStatus = try await lightningSDK.getStatus(name: selectedStudio)
             print("Current status: \(newStatus)")
-            currentMachine = try await lightningSDK.getMachine(name: studioName)
+            currentMachine = try await lightningSDK.getMachine(name: selectedStudio)
             
             // Check if we need to start or stop the fast timer
             if (newStatus != "STOPPED" && newStatus != "RUNNING") && fastStatusUpdateTimer == nil {
@@ -117,6 +122,11 @@ class LightningViewModel: ObservableObject {
             
             currentStatus = newStatus
             alertError = nil
+            
+            // Update the status in the studios array
+            if let index = studios.firstIndex(where: { $0["name"] == selectedStudio }) {
+                studios[index]["status"] = newStatus
+            }
         } catch {
             alertError = AlertError(message: error.localizedDescription)
             print("Failed to get status: \(error)")
@@ -126,7 +136,7 @@ class LightningViewModel: ObservableObject {
     func switchMachine(machineType: String) {
         Task {
             do {
-                try await lightningSDK.switchMachine(name: studioName, machineType: machineType)
+                try await lightningSDK.switchMachine(name: selectedStudio, machineType: machineType)
                 await updateStatus()
             } catch {
                 await MainActor.run {
@@ -140,7 +150,7 @@ class LightningViewModel: ObservableObject {
     func startStudio(machineType: String) {
         Task {
             do {
-                try await lightningSDK.startStudio(name: studioName, machineType: machineType)
+                try await lightningSDK.startStudio(name: selectedStudio, machineType: machineType)
                 await updateStatus()
             } catch {
                 await MainActor.run {
@@ -154,7 +164,7 @@ class LightningViewModel: ObservableObject {
     func stopStudio() {
         Task {
             do {
-                try await lightningSDK.stopStudio(name: studioName)
+                try await lightningSDK.stopStudio(name: selectedStudio)
                 await updateStatus()
             } catch {
                 await MainActor.run {
@@ -174,6 +184,32 @@ class LightningViewModel: ObservableObject {
         fastRefreshPeriod = newPeriod
         if fastStatusUpdateTimer != nil {
             startFastStatusUpdateTimer()
+        }
+    }
+    
+    func fetchStudios() {
+        Task {
+            do {
+                let fetchedStudios = try await lightningSDK.listStudios()
+                await MainActor.run {
+                    self.studios = fetchedStudios
+                    if self.selectedStudio.isEmpty && !fetchedStudios.isEmpty {
+                        self.selectedStudio = fetchedStudios[0]["name"] ?? ""
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.alertError = AlertError(message: "Failed to fetch studios: \(error.localizedDescription)")
+                }
+                print("Failed to fetch studios: \(error)")
+            }
+        }
+    }
+    
+    func selectStudio(_ studioName: String) {
+        selectedStudio = studioName
+        Task {
+            await updateStatus()
         }
     }
 }

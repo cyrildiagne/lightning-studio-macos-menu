@@ -131,7 +131,7 @@ class LightningSDK {
             return "STOPPED"
         }
         
-        let phase = inUse["phase"] as! String
+        let phase = inUse["phase"] as? String ?? "UNKNOWN"
         
         switch phase {
         case "CLOUD_SPACE_INSTANCE_STATE_PENDING":
@@ -140,13 +140,30 @@ class LightningSDK {
             guard let startupStatus = inUse["startupStatus"] as? [String: Any] else {
                 return "UNKNOWN"
             }
-            return (startupStatus["topUpRestoreFinished"] as! Bool) ? "RUNNING" : "INITIALIZING"
+            return (startupStatus["topUpRestoreFinished"] as? Bool ?? false) ? "RUNNING" : "INITIALIZING"
         case "CLOUD_SPACE_INSTANCE_STATE_STOPPING":
             return "STOPPING"
         case "CLOUD_SPACE_INSTANCE_STATE_FAILED":
             return "FAILED"
         default:
             return "UNKNOWN"
+        }
+    }
+    
+    func listStudios() async throws -> [[String: String]] {
+        let (data, _) = try await makeRequest(method: "GET", path: "/projects/\(teamspaceId)/cloudspaces")
+        let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+        let cloudspaces = json["cloudspaces"] as! [[String: Any]]
+        
+        return cloudspaces.map { studio in
+            let name = studio["name"] as? String ?? "Unknown"
+            let status: String
+            if let studioStatus = studio["status"] as? [String: Any] {
+                status = getSimplifiedStatus(status: studioStatus)
+            } else {
+                status = "UNKNOWN"
+            }
+            return ["name": name, "status": status]
         }
     }
 }

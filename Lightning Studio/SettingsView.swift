@@ -20,9 +20,9 @@ struct SettingsView: View {
             }
             
             TabView {
-                LightningStudioSettingsView(userId: $viewModel.userId, apiKey: $viewModel.apiKey, teamspaceId: viewModel.$teamspaceId, studioName: $viewModel.studioName)
+                LightningStudioSettingsView(userId: $viewModel.userId, apiKey: $viewModel.apiKey, teamspaceId: viewModel.$teamspaceId)
                     .tabItem {
-                        Label("Lightning Studio", systemImage: "bolt.fill")
+                        Label("Studio", systemImage: "bolt.fill")
                     }
                 
                 SystemSettingsView(viewModel: viewModel)
@@ -60,20 +60,13 @@ struct LightningStudioSettingsView: View {
     @Binding var userId: String
     @Binding var apiKey: String
     @Binding var teamspaceId: String
-    @Binding var studioName: String
     
     var body: some View {
         Form {
             Section(header: Text("Lightning API Credentials")) {
                 TextField("User ID", text: $userId)
                 SecureField("API Key", text: $apiKey)
-            }
-            
-            Spacer().frame(height: 20)
-            
-            Section(header: Text("Studio Configuration")) {
                 TextField("Teamspace ID", text: $teamspaceId)
-                TextField("Studio Name", text: $studioName)
             }
         }
     }
@@ -100,8 +93,8 @@ struct SystemSettingsView: View {
                         Text("\(Int(tempRefreshPeriod))")
                     }
                 }
-                .onChange(of: tempRefreshPeriod) { newValue in
-                    viewModel.updateRefreshPeriod(newValue)
+                .onChange(of: tempRefreshPeriod) {
+                    viewModel.updateRefreshPeriod(tempRefreshPeriod)
                 }
             }
         }
