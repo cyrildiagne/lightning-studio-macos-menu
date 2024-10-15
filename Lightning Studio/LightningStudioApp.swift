@@ -44,19 +44,19 @@ struct LightningMenu: View {
             if viewModel.currentStatus != "STOPPED" {
                 Menu("Switch Machine") {
                     Button("CPU-4") {
-                        viewModel.startStudio(machineType: "cpu-4")
+                        viewModel.switchMachine(machineType: "cpu-4")
                     }
-                    .disabled(viewModel.currentMachine.lowercased().contains("cpu-4"))
+                    .disabled(viewModel.currentMachine.lowercased().contains("cpu-4") || viewModel.currentStatus != "RUNNING")
                     
                     Button("L4") {
-                        viewModel.startStudio(machineType: "l4")
+                        viewModel.switchMachine(machineType: "g6.4xlarge")
                     }
-                    .disabled(viewModel.currentMachine.lowercased().contains("l4"))
+                    .disabled(viewModel.currentMachine.lowercased().contains("g6.4xlarge") || viewModel.currentStatus != "RUNNING")
                     
                     Button("L40S") {
-                        viewModel.startStudio(machineType: "l40s")
+                        viewModel.switchMachine(machineType: "g6e.4xlarge")
                     }
-                    .disabled(viewModel.currentMachine.lowercased().contains("l40s"))
+                    .disabled(viewModel.currentMachine.lowercased().contains("g6e.4xlarge") || viewModel.currentStatus != "RUNNING")
                 }
             } else {
                 Menu("Start") {
