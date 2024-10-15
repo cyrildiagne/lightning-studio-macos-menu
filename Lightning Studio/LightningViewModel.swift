@@ -19,13 +19,15 @@ class LightningViewModel: ObservableObject {
     @AppStorage("LIGHTNING_TEAMSPACE_ID") public var teamspaceId = ""
     @AppStorage("LIGHTNING_STUDIO_NAME") public var studioName = ""
     @AppStorage("LIGHTNING_REFRESH_PERIOD") public var refreshPeriod: Double = 30
+    @AppStorage("LIGHTNING_FAST_REFRESH_PERIOD") public var fastRefreshPeriod: Double = 5
     
     private var lightningSDK: LightningSDK!
-    private var statusUpdateTimer: Timer?
+    private var regularStatusUpdateTimer: Timer?
+    private var fastStatusUpdateTimer: Timer?
     
     init() {
         setupSDK()
-        setupStatusUpdateTimer()
+        setupStatusUpdateTimers()
         Task {
             await updateStatus()
         }
@@ -53,6 +55,8 @@ class LightningViewModel: ObservableObject {
         case "STOPPED":
             return Image(systemName: "bolt.slash.fill")
         case "PENDING", "STOPPING":
+            return Image(systemName: "bolt.badge.clock")
+        case "INITIALIZING":
             return Image(systemName: "bolt.badge.clock.fill")
         case "RUNNING":
             if currentMachine.lowercased() == "unknown" {
@@ -66,23 +70,70 @@ class LightningViewModel: ObservableObject {
         }
     }
     
-    func setupStatusUpdateTimer() {
-        statusUpdateTimer?.invalidate()
-        statusUpdateTimer = Timer.scheduledTimer(withTimeInterval: refreshPeriod, repeats: true) { [weak self] _ in
+    func setupStatusUpdateTimers() {
+        regularStatusUpdateTimer?.invalidate()
+        fastStatusUpdateTimer?.invalidate()
+        
+        regularStatusUpdateTimer = Timer.scheduledTimer(withTimeInterval: refreshPeriod, repeats: true) { [weak self] _ in
             Task { await self?.updateStatus() }
+        }
+        
+        if currentStatus != "STOPPED" && currentStatus != "RUNNING" {
+            startFastStatusUpdateTimer()
+        }
+    }
+    
+    private func startFastStatusUpdateTimer() {
+        fastStatusUpdateTimer?.invalidate()
+        fastStatusUpdateTimer = Timer.scheduledTimer(withTimeInterval: fastRefreshPeriod, repeats: true) { [weak self] _ in
+            Task { await self?.updateStatusAndCheckTransition() }
+        }
+    }
+    
+    @MainActor
+    func updateStatusAndCheckTransition() async {
+        await updateStatus()
+        
+        if currentStatus == "STOPPED" || currentStatus == "RUNNING" {
+            fastStatusUpdateTimer?.invalidate()
+            fastStatusUpdateTimer = nil
         }
     }
     
     @MainActor
     func updateStatus() async {
         do {
-            currentStatus = try await lightningSDK.getStatus(name: studioName)
-            print("Current status: \(currentStatus)")
+            let newStatus = try await lightningSDK.getStatus(name: studioName)
+            print("Current status: \(newStatus)")
             currentMachine = try await lightningSDK.getMachine(name: studioName)
+            
+            // Check if we need to start or stop the fast timer
+            if (newStatus != "STOPPED" && newStatus != "RUNNING") && fastStatusUpdateTimer == nil {
+                startFastStatusUpdateTimer()
+            } else if (newStatus == "STOPPED" || newStatus == "RUNNING") && fastStatusUpdateTimer != nil {
+                fastStatusUpdateTimer?.invalidate()
+                fastStatusUpdateTimer = nil
+            }
+            
+            currentStatus = newStatus
             alertError = nil
         } catch {
             alertError = AlertError(message: error.localizedDescription)
             print("Failed to get status: \(error)")
+        }
+    }
+    
+    func switchMachine(machineType: String) {
+        Task {
+            do {
+                try await lightningSDK.switchMachine(name: studioName, machineType: machineType)
+                await updateStatus()
+            } catch {
+                await MainActor.run {
+                    alertError = AlertError(message: "Failed to switch machine: \(error.localizedDescription)")
+                }
+                print("Failed to switch machine: \(error)")
+            }
         }
     }
     
@@ -116,6 +167,13 @@ class LightningViewModel: ObservableObject {
     
     func updateRefreshPeriod(_ newPeriod: Double) {
         refreshPeriod = newPeriod
-        setupStatusUpdateTimer()
+        setupStatusUpdateTimers()
+    }
+    
+    func updateFastRefreshPeriod(_ newPeriod: Double) {
+        fastRefreshPeriod = newPeriod
+        if fastStatusUpdateTimer != nil {
+            startFastStatusUpdateTimer()
+        }
     }
 }

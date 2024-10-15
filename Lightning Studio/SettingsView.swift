@@ -94,7 +94,7 @@ struct SystemSettingsView: View {
                 LaunchAtLogin.Toggle()
                 
                 VStack(alignment: .leading) {
-                    Text("Refresh Period (seconds)")
+                    Text("Idle Refresh Period (seconds)")
                     HStack {
                         Slider(value: $tempRefreshPeriod, in: 5...300, step: 5)
                         Text("\(Int(tempRefreshPeriod))")

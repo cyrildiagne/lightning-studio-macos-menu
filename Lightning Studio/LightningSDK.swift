@@ -37,7 +37,30 @@ class LightningSDK {
             request.httpBody = try JSONSerialization.data(withJSONObject: body)
         }
         
-        return try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            if let jsonResult = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+               let errorMessage = jsonResult["message"] as? String {
+                throw NSError(domain: "LightningSDK", code: (response as? HTTPURLResponse)?.statusCode ?? 500,
+                              userInfo: [NSLocalizedDescriptionKey: errorMessage])
+            } else {
+                throw NSError(domain: "LightningSDK", code: (response as? HTTPURLResponse)?.statusCode ?? 500,
+                              userInfo: [NSLocalizedDescriptionKey: "An error occurred with the request"])
+            }
+        }
+        
+        // // Print debug information
+        // print("> \(method) \(path)")
+        // if let jsonResult = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+        //     print(jsonResult)
+        // } else {
+        //     print("\(String(data: data, encoding: .utf8) ?? "Unable to decode")")
+        // }
+        // print("----------------------")
+
+        return (data, response)
     }
     
     func getStudioInfo(name: String) async throws -> [String: Any] {
@@ -67,6 +90,18 @@ class LightningSDK {
             throw NSError(domain: "LightningSDK", code: 500, userInfo: [NSLocalizedDescriptionKey: "Failed to retrieve compute configuration"])
         }
         return computeConfig["name"] as! String
+    }
+    
+    func switchMachine(name: String, machineType: String) async throws {
+        let studioInfo = try await getStudioInfo(name: name)
+        let studioId = studioInfo["id"] as! String
+        let body: [String: Any] = [
+            "computeConfig": [
+                "name": machineType,
+                "spot": false
+            ]
+        ]
+        let (_, _) = try await makeRequest(method: "PUT", path: "/projects/\(teamspaceId)/cloudspaces/\(studioId)/codeconfig", body: body)
     }
     
     func startStudio(name: String, machineType: String) async throws {
