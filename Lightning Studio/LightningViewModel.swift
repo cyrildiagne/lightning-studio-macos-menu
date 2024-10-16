@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct AlertError: Identifiable, Equatable {
     let id = UUID()
@@ -26,6 +27,7 @@ class LightningViewModel: ObservableObject {
     private var lightningSDK: LightningSDK!
     private var regularStatusUpdateTimer: Timer?
     private var fastStatusUpdateTimer: Timer?
+    private var previousStatus: String = "UNKNOWN"
     
     init() {
         setupSDK()
@@ -87,6 +89,7 @@ class LightningViewModel: ObservableObject {
     }
     
     private func startFastStatusUpdateTimer() {
+        print("Starting fast status update timer with interval: \(fastRefreshPeriod)")
         fastStatusUpdateTimer?.invalidate()
         fastStatusUpdateTimer = Timer.scheduledTimer(withTimeInterval: fastRefreshPeriod, repeats: true) { [weak self] _ in
             Task { await self?.updateStatusAndCheckTransition() }
@@ -98,6 +101,7 @@ class LightningViewModel: ObservableObject {
         await updateStatus()
         
         if currentStatus == "STOPPED" || currentStatus == "RUNNING" {
+            print("Stopping fast status update timer")
             fastStatusUpdateTimer?.invalidate()
             fastStatusUpdateTimer = nil
         }
@@ -120,7 +124,13 @@ class LightningViewModel: ObservableObject {
                 fastStatusUpdateTimer = nil
             }
             
+            // Check if status has changed to STOPPED or RUNNING
+            if (newStatus == "STOPPED" || newStatus == "RUNNING") && newStatus != previousStatus {
+                triggerNotification(for: newStatus)
+            }
+            
             currentStatus = newStatus
+            previousStatus = newStatus
             alertError = nil
             
             // Update the status in the studios array
@@ -130,6 +140,27 @@ class LightningViewModel: ObservableObject {
         } catch {
             alertError = AlertError(message: error.localizedDescription)
             print("Failed to get status: \(error)")
+        }
+    }
+    
+    private func triggerNotification(for status: String) {
+        let content = UNMutableNotificationContent()
+        content.title = selectedStudio
+        
+        if status == "STOPPED" {
+            content.body = "Studio is stopped."
+        } else if status == "RUNNING" {
+            content.body = "Studio is running on \(currentMachine)."
+        }
+        
+        content.sound = UNNotificationSound.default
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error sending notification: \(error)")
+            }
         }
     }
     

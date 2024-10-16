@@ -1,16 +1,21 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct LightningStudioApp: App {
     @StateObject private var viewModel = LightningViewModel()
     @Environment(\.openSettings) private var openSettings
     
+    init() {
+        requestNotificationPermissions()
+    }
+    
     var body: some Scene {
         MenuBarExtra {
             LightningMenu(viewModel: viewModel)
             .onAppear {
                 if (viewModel.userId.isEmpty || viewModel.apiKey.isEmpty || viewModel.teamspaceId.isEmpty || viewModel.studioName.isEmpty) {
-                    openSettings()
+                    openSettingsAndFocus()
                 }
             }
         } label: {
@@ -22,7 +27,39 @@ struct LightningStudioApp: App {
         }
         .onChange(of: viewModel.alertError) {
             if viewModel.alertError != nil {
-                openSettings()
+                openSettingsAndFocus()
+            }
+        }
+    }
+    
+    private func openSettingsAndFocus() {
+        openSettings()
+        DispatchQueue.main.async {
+            if let window = NSApplication.shared.windows.first(where: { $0.title == "Settings" }) {
+                window.makeKeyAndOrderFront(nil)
+                NSApplication.shared.activate(ignoringOtherApps: true)
+            }
+        }
+    }
+    
+    private func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+                    if granted {
+                        print("Notification permission granted")
+                    } else if let error = error {
+                        print("Error requesting notification permission: \(error)")
+                    }
+                }
+            case .denied:
+                print("Notification permission denied. Please enable it in Settings.")
+                // Optionally, you can show an alert to the user explaining how to enable notifications
+            case .authorized, .provisional, .ephemeral:
+                print("Notification permission already granted")
+            @unknown default:
+                print("Unknown notification authorization status")
             }
         }
     }

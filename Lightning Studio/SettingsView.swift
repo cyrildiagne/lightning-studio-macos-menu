@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(\.openSettings) private var openSettings
@@ -7,6 +8,7 @@ struct SettingsView: View {
     @ObservedObject var viewModel: LightningViewModel
     
     @State private var showAlert = false
+    @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
     
     var body: some View {
         VStack {
@@ -25,7 +27,7 @@ struct SettingsView: View {
                         Label("Studio", systemImage: "bolt.fill")
                     }
                 
-                SystemSettingsView(viewModel: viewModel)
+                SystemSettingsView(viewModel: viewModel, notificationStatus: $notificationStatus)
                     .tabItem {
                         Label("System", systemImage: "gear")
                     }
@@ -42,6 +44,9 @@ struct SettingsView: View {
                 }
             )
         }
+        .onAppear {
+            checkNotificationStatus()
+        }
         .onDisappear {
             if !viewModel.areSettingsOK() {
                 showAlert = true
@@ -51,6 +56,14 @@ struct SettingsView: View {
             }
             Task {
                 await viewModel.updateStatus()
+            }
+        }
+    }
+    
+    private func checkNotificationStatus() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                self.notificationStatus = settings.authorizationStatus
             }
         }
     }
@@ -75,10 +88,12 @@ struct LightningStudioSettingsView: View {
 struct SystemSettingsView: View {
     @ObservedObject var viewModel: LightningViewModel
     @State private var tempRefreshPeriod: Double
+    @Binding var notificationStatus: UNAuthorizationStatus
 
-    init(viewModel: LightningViewModel) {
+    init(viewModel: LightningViewModel, notificationStatus: Binding<UNAuthorizationStatus>) {
         self.viewModel = viewModel
         _tempRefreshPeriod = State(initialValue: viewModel.refreshPeriod)
+        _notificationStatus = notificationStatus
     }
 
     var body: some View {
@@ -96,7 +111,43 @@ struct SystemSettingsView: View {
                 .onChange(of: tempRefreshPeriod) {
                     viewModel.updateRefreshPeriod(tempRefreshPeriod)
                 }
+
+                Divider()
+                
+                VStack(alignment: .leading) {
+                    Text("Notifications")
+                    HStack {
+                        Text(notificationStatusText)
+                        Spacer()
+                        Button("Open Settings") {
+                            openNotificationSettings()
+                        }
+                    }
+                }
             }
+        }
+    }
+    
+    private var notificationStatusText: String {
+        switch notificationStatus {
+        case .authorized:
+            return "Enabled"
+        case .denied:
+            return "Disabled"
+        case .notDetermined:
+            return "Not Determined"
+        case .provisional:
+            return "Provisional"
+        case .ephemeral:
+            return "Ephemeral"
+        @unknown default:
+            return "Unknown"
+        }
+    }
+    
+    private func openNotificationSettings() {
+        if let settingsUrl = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
+            NSWorkspace.shared.open(settingsUrl)
         }
     }
 }
